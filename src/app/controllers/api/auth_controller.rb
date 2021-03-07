@@ -1,4 +1,6 @@
 class Api::AuthController < ApplicationController
+  include JwtAuthenticator
+  before_action :jwt_authenticate, except: :create
 
   def register
     @user = User.new(registrations_params)
