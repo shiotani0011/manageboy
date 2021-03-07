@@ -1,4 +1,8 @@
 class usersController < ApplicationController
+
+  include JwtAuthenticator
+  before_action :jwt_authenticate, except: :create
+
   def index
     user = User.all
     render json: {
