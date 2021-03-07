@@ -13,3 +13,9 @@
   )
   member.save!
 end
+
+  user = User.new(
+    email: "aaa@gmail.com",
+    password: "2222",
+    password_confirmation: "2222"
+  )
