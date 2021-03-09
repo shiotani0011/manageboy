@@ -9,7 +9,7 @@ class Api::SessionsController < ApplicationController
           login!
         jwt_token = encode(@user.id)
         response.headers['X-Authentication-Token'] = jwt_token
-          render json: { logged_in: true, user: @current_user, token: jwt_token}
+          render json: { logged_in: true, user: @user, token: jwt_token}
       else
         raise UnableAuthorizationError.new("ログインIDまたはパスワードが誤っています。")
         #   render json: { status: 401, errors: ['認証に失敗しました。', '正しいメールアドレス・パスワードを入力し直すか、新規登録を行ってください。'] }
