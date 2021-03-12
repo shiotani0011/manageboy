@@ -2,19 +2,26 @@ module JwtAuthenticator
   require "jwt"
 
   SECRET_KEY = Rails.application.secrets.secret_key_base
+  # SECRET_KEY = Rails.application.credentials[:secret_key_base]
+
 
   # ヘッダーの認証トークンを復号化してユーザー認証を行う
   def jwt_authenticate
-    raise UnableAuthorizationError.new("認証情報が不足しています。") if request.headers['Authorization'].blank?
-    # 下記のようにヘッダーに設定されているとして、トークンをヘッダーから取得する。
-    # headers['Authorization'] = "Bearer XXXXX..."
+    # トークンが空の場合はエラーを拾う
+    raise UnableAuthorizationError if request.headers['Authorization'].blank?
+
     encoded_token = request.headers['Authorization'].split('Bearer ').last
     # トークンを復号化する(トークンが復号できない場合、有効期限切れの場合はここで例外が発生します。)
     payload = decode(encoded_token)
     # Payloadから取得したユーザーIDでログインしているユーザー情報を取得
-    @current_user = User.find_by(id: payload[:user_id])
-    raise UnableAuthorizationError.new("認証できません。") if @current_user.blank?
+    @current_user = User.find(payload["user_id"])
+
+    # 無効なトークンもエラーを拾う
+    raise UnableAuthorizationError if @current_user.blank?
     @current_user
+  rescue # UnableAuthorizationError
+    # 拾ったエラーは401にする
+    response_unauthorized
   end
 
   # 暗号化処理
