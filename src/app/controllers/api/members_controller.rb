@@ -15,9 +15,10 @@ class Api::MembersController < ApplicationController
   end
 
   def create
-    @member = Member.new(member_params)
+    member = Member.new(member_params)
+    member.save
     render json: {
-      member: @member
+      member: member
     }, status: :ok
   end
 
