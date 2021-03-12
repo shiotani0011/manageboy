@@ -10,7 +10,6 @@ class Members < ActiveRecord::Migration[6.1]
       t.text :repository_url
       t.date :start_date, null: false
       t.text :memo
-      t.boolean :deleted_flag
 
       t.timestamps
     end

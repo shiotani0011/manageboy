@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 2021_03_03_003601) do
     t.text "repository_url"
     t.date "start_date", null: false
     t.text "memo"
-    t.boolean "deleted_flag"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
