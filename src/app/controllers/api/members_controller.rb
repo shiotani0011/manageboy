@@ -1,4 +1,7 @@
 class Api::MembersController < ApplicationController
+  include JwtAuthenticator
+  before_action :jwt_authenticate, except: :create
+
   def index
     members = Member.all
 
