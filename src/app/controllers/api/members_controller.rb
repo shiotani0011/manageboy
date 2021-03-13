@@ -1,4 +1,5 @@
 class Api::MembersController < ApplicationController
+  before_action :authenticate_v1_user!
   def index
     members = Member.all
 
